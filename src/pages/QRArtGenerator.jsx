@@ -62,10 +62,9 @@ export default function QRArtGenerator() {
     img.src = logo
   }, [logo])
 
-  const renderText = useCallback((ctx, width, height, isDownload = false) => {
-    const scale = isDownload ? 4 : 1
+  const renderText = useCallback((ctx, width, height, scale = 1) => {
     const qrSize = 280 * scale
-    const fontSize = (isDownload ? 18 : 14) * scale
+    const fontSize = 14 * scale
     const gap = 5 * scale
     const textTop = qrSize + gap
     
@@ -116,9 +115,9 @@ export default function QRArtGenerator() {
       const lY = (canvas.width - lSize) / 2
       ctx.drawImage(logoImg, lX, lY, lSize, lSize)
       
-      if (customText) renderText(ctx, canvas.width, canvas.height)
+      if (customText) renderText(ctx, canvas.width, canvas.height, 1)
     } else if (customText) {
-      renderText(ctx, canvas.width, canvas.height)
+      renderText(ctx, canvas.width, canvas.height, 1)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logoImg, logoSize, customText, logoPadding, logoBorderColor, renderText])
@@ -210,6 +209,8 @@ export default function QRArtGenerator() {
     const colors = style?.colors || ['#6c5ce7', '#00cec9', '#fd79a8']
     const strength = visualStrength / 100
 
+    if (selectedStyle === 'Black & White') return;
+
     // Decorative art background based on style
     for (let i = 0; i < 20; i++) {
       ctx.beginPath()
@@ -278,7 +279,7 @@ export default function QRArtGenerator() {
     dctx.fillRect(0, 0, downloadCanvas.width, downloadCanvas.height)
     
     // 1. Draw Art Background at high-res
-    if (generated && artCanvasRef.current) {
+    if (generated && artCanvasRef.current && selectedStyle !== 'Black & White') {
       dctx.globalAlpha = visualStrength / 100
       const style = aiStyles.find(s => s.name === selectedStyle)
       const colors = style?.colors || ['#6c5ce7', '#00cec9', '#fd79a8']
@@ -333,21 +334,28 @@ export default function QRArtGenerator() {
           const lY = (qrSize - lSize) / 2
           dctx.drawImage(img, lX, lY, lSize, lSize)
           
-          if (hasText) renderText(dctx, qrSize, downloadCanvas.height, true)
+          
+          if (hasText) renderText(dctx, qrSize, downloadCanvas.height, scale)
           finalizeDownload(downloadCanvas)
         }
       } else {
-        if (hasText) renderText(dctx, qrSize, downloadCanvas.height, true)
+        if (hasText) renderText(dctx, qrSize, downloadCanvas.height, scale)
         finalizeDownload(downloadCanvas)
       }
     })
   }
 
   const finalizeDownload = (canvas) => {
-    const link = document.createElement('a')
-    link.download = `qrforall-hq-${selectedStyle.toLowerCase().replace(/\s+/g, '-')}.png`
-    link.href = canvas.toDataURL('image/png', 1.0)
-    link.click()
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      // safe filename without &
+      const safeName = selectedStyle.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+      link.download = `qrforall-hq-${safeName}.png`
+      link.href = url
+      link.click()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    }, 'image/png', 1.0)
   }
 
   return (
