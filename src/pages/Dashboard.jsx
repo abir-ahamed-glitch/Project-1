@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Filler, Tooltip, Legend } from 'chart.js'
 import { Line, Doughnut } from 'react-chartjs-2'
 import { TrendingUp, TrendingDown, QrCode, Sparkles, BarChart3, ScanLine, Eye, ArrowRight } from 'lucide-react'
@@ -167,7 +167,7 @@ export default function Dashboard() {
                 {insight.prediction}
               </p>
               <div style={{ fontSize: 12, color: 'var(--accent-primary)', fontWeight: 600 }}>
-                → {insight.action}
+                {'->'} {insight.action}
               </div>
             </div>
           ))}
@@ -213,17 +213,17 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div className="grid-3 stagger-children">
         <Link to="/" className="glass-card feature-card" style={{ textDecoration: 'none', color: 'inherit' }} id="quick-generator">
-          <div className="feature-card-icon purple">🎨</div>
+          <div className="feature-card-icon purple"><Sparkles size={22} /></div>
           <h3>{t('generateQrArt')}</h3>
           <p>{t('generateQrArtDesc')}</p>
         </Link>
         <Link to="/scanner" className="glass-card feature-card" style={{ textDecoration: 'none', color: 'inherit' }} id="quick-scanner">
-          <div className="feature-card-icon teal">📱</div>
+          <div className="feature-card-icon teal"><ScanLine size={22} /></div>
           <h3>{t('smartScanner')}</h3>
           <p>{t('smartScannerDesc')}</p>
         </Link>
         <Link to="/ab-testing" className="glass-card feature-card" style={{ textDecoration: 'none', color: 'inherit' }} id="quick-abtesting">
-          <div className="feature-card-icon pink">⚡</div>
+          <div className="feature-card-icon pink"><BarChart3 size={22} /></div>
           <h3>{t('abTesting')}</h3>
           <p>{t('abTestingDesc')}</p>
         </Link>

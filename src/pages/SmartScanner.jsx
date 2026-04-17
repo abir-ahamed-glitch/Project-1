@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { ScanLine, Zap, Moon, RotateCcw, Sun, Camera, CheckCircle, AlertTriangle, Info } from 'lucide-react'
+﻿import { useState } from 'react'
+import { ScanLine, Zap, Moon, RotateCcw, Sun, Camera, CheckCircle, Info } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 const scanResults = [
   { url: 'https://link.yourbrand.com/menu', time: '0.12s', condition: 'Low Light', confidence: 98, method: 'ML Reconstruction' },
   { url: 'https://link.yourbrand.com/launch-2026', time: '0.08s', condition: 'Normal', confidence: 100, method: 'Standard Decode' },
   { url: 'https://link.yourbrand.com/event-2026', time: '0.34s', condition: 'High Glare', confidence: 94, method: 'Glare Removal AI' },
-  { url: 'https://link.yourbrand.com/feedback', time: '0.21s', condition: '45° Angle', confidence: 96, method: 'Perspective Warp' },
+  { url: 'https://link.yourbrand.com/feedback', time: '0.21s', condition: '45 deg Angle', confidence: 96, method: 'Perspective Warp' },
 ]
 
 export default function SmartScanner() {

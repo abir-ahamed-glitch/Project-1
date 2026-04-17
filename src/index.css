@@ -782,7 +782,7 @@ body::before {
 .input-label {
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -801,7 +801,7 @@ body::before {
 }
 
 .input::placeholder {
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .input:focus {
@@ -1764,7 +1764,7 @@ body::before {
 /* 1. Dark (Default) */
 .theme-dark {
   /* Default dark theme uses :root variables */
-  color: inherit;
+  color: var(--text-primary);
 }
 
 /* 2. Light */

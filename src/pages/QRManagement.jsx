@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QrCode, ExternalLink, Clock, History, FileText, Search, Plus, Edit, Trash2, ChevronDown, ChevronRight, Save, Download } from 'lucide-react'
 import QRCode from 'qrcode'
@@ -87,7 +87,7 @@ export default function QRManagement() {
     }
   }
 
-  const drawLabel = (ctx, qr, qrSize, totalHeight) => {
+  const drawLabel = (ctx, qr, qrSize) => {
     if (!qr.customText) return
     
     // Scale factors relative to 4096px
@@ -174,7 +174,10 @@ export default function QRManagement() {
       if (qr.logo) {
         const logoImg = new Image()
         logoImg.src = qr.logo
-        await new Promise(resolve => logoImg.onload = resolve)
+        await new Promise((resolve, reject) => {
+          logoImg.onload = resolve
+          logoImg.onerror = reject
+        })
         
         const logoSizePct = qr.logoSize || 15
         const logoPaddingPct = qr.logoPadding || 4
@@ -196,9 +199,9 @@ export default function QRManagement() {
       }
 
       // 4. Draw Label
-      if (hasLabel) {
-        drawLabel(dctx, qr, qrSize, downloadCanvas.height)
-      }
+        if (hasLabel) {
+          drawLabel(dctx, qr, qrSize)
+        }
       
       const link = document.createElement('a')
       link.download = `qr-ultra-hq-${qr.name.toLowerCase().replace(/\s+/g, '-')}.png`
@@ -347,9 +350,7 @@ export default function QRManagement() {
                         <span className="version-number">v{ver.v}</span>
                         <div className="version-info">
                           <div className="version-url">{ver.url}</div>
-                          <div className="version-meta">
-                            {ver.date} · by {ver.by}
-                          </div>
+                          <div className="version-meta">{`${ver.date} - by ${ver.by}`}</div>
                         </div>
                         {ver.tag && (
                           <span className={`version-tag ${ver.tag === 'current' ? 'badge-success' : 'badge-purple'}`} style={{ padding: '3px 10px' }}>
@@ -372,7 +373,7 @@ export default function QRManagement() {
                         <div className="timeline-item-time">{entry.time}</div>
                         <div className="timeline-item-content">
                           {entry.action}
-                          <span className="text-muted"> — {entry.user}</span>
+                          <span className="text-muted">{` - ${entry.user}`}</span>
                         </div>
                       </div>
                     )) : (

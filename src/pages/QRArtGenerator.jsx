@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+﻿import { useState, useRef, useEffect, useCallback } from 'react'
 import QRCode from 'qrcode'
 import { Sparkles, Download, RefreshCw, Wand2, Eye, Palette, Sliders } from 'lucide-react'
 import { aiStyles } from '../data/mockData'
@@ -186,7 +186,10 @@ export default function QRArtGenerator() {
         visualStrength: visualStrength,
         conditioningScale: conditioningScale,
         customText: customText,
-        logo: logo
+        logo: logo,
+        logoSize: logoSize,
+        logoPadding: logoPadding,
+        logoBorderColor: logoBorderColor
       })
       setSaveStatus('success')
       setTimeout(() => setSaveStatus(null), 3000)
@@ -327,17 +330,25 @@ export default function QRArtGenerator() {
         dctx.roundRect(czX, czY, czSize, czSize, 8 * scale)
         dctx.fill()
         
-        const img = logoImg
-        if (img) {
+        const drawAndFinish = (img) => {
           const lSize = (qrSize * logoSize) / 100
           const lX = (qrSize - lSize) / 2
           const lY = (qrSize - lSize) / 2
           dctx.drawImage(img, lX, lY, lSize, lSize)
-          
-          
+
           if (hasText) renderText(dctx, qrSize, downloadCanvas.height, scale)
           finalizeDownload(downloadCanvas)
         }
+
+        if (logoImg) {
+          drawAndFinish(logoImg)
+          return
+        }
+
+        const fallbackImg = new Image()
+        fallbackImg.onload = () => drawAndFinish(fallbackImg)
+        fallbackImg.onerror = () => finalizeDownload(downloadCanvas)
+        fallbackImg.src = logo
       } else {
         if (hasText) renderText(dctx, qrSize, downloadCanvas.height, scale)
         finalizeDownload(downloadCanvas)
@@ -428,7 +439,7 @@ export default function QRArtGenerator() {
                 id="style-select"
               >
                 {aiStyles.map(s => (
-                  <option key={s.name} value={s.name}>{s.name} — {s.category}</option>
+                  <option key={s.name} value={s.name}>{`${s.name} - ${s.category}`}</option>
                 ))}
               </select>
             </div>

@@ -1,4 +1,4 @@
-// Mock data for the entire QR For All ecosystem
+﻿// Mock data for the entire QR For All ecosystem
 
 export const dashboardStats = {
   totalScans: { value: '2.4M', change: '+18.3%', period: 'vs last month' },
@@ -52,7 +52,7 @@ export const locationData = [
   { city: 'Tokyo', country: 'JP', scans: 142100, trend: '+22%' },
   { city: 'Berlin', country: 'DE', scans: 98400, trend: '+15%' },
   { city: 'Sydney', country: 'AU', scans: 87600, trend: '+5%' },
-  { city: 'São Paulo', country: 'BR', scans: 76300, trend: '+31%' },
+  { city: 'S?o Paulo', country: 'BR', scans: 76300, trend: '+31%' },
   { city: 'Mumbai', country: 'IN', scans: 71800, trend: '+28%' },
   { city: 'Toronto', country: 'CA', scans: 64500, trend: '+9%' },
 ]
@@ -260,7 +260,7 @@ export const sentimentData = {
   negative: 10,
   insights: [
     { text: 'Users are 3.2x more likely to complete actions after scanning AI-styled QR codes', type: 'positive' },
-    { text: 'Peak engagement occurs Tuesday–Thursday between 11am–2pm local time', type: 'neutral' },
+    { text: 'Peak engagement occurs Tuesday-Thursday between 11am-2pm local time', type: 'neutral' },
     { text: 'QR codes with branded domains see 47% higher trust scores', type: 'positive' },
     { text: '12% of users report difficulty scanning from certain angles in low-light', type: 'negative' },
   ],
@@ -275,7 +275,7 @@ export const predictiveInsights = [
   },
   {
     title: 'Peak Engagement Window',
-    prediction: 'Tuesday 11:30 AM – 1:15 PM will be the highest-converting window next week',
+    prediction: 'Tuesday 11:30 AM - 1:15 PM will be the highest-converting window next week',
     confidence: 94,
     action: 'Schedule push notifications to activate QR campaigns during this window',
   },
