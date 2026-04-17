@@ -261,8 +261,8 @@ export default function QRArtGenerator() {
     const mainCanvas = canvasRef.current
     if (!mainCanvas) return
     
-    // 15x Resolution Scaling for ultra-high-quality downloads (4k+ print-ready)
-    const scale = 15
+    // 8x Resolution Scaling for ultra-high-quality downloads (4k+ print-ready)
+    const scale = 8
     const qrSize = 280 * scale
     const hasText = customText.length > 0
     const extraHeight = hasText ? 40 * scale : 0
@@ -347,6 +347,10 @@ export default function QRArtGenerator() {
 
   const finalizeDownload = (canvas) => {
     canvas.toBlob((blob) => {
+      if (!blob) {
+        alert("Could not generate high-res image on this device.");
+        return;
+      }
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       // safe filename without &
